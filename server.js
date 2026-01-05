@@ -43,7 +43,9 @@ express_app.post('/logger', async (req, res) => {
     const logger_data = { Date: formatDateTime()}
     try {
         await portfolio_collection.insertOne(logger_data)
+        res.send({status: 'success'})
     } catch(err) {
+        res.send({status: 'failed'})
         console.log('log failed')
     }
 })
