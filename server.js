@@ -40,7 +40,7 @@ function formatIndianDateTime() {
 
 express_app.post('/logger', async (req, res) => {
     // console.log('Logger called')
-    const logger_data = { Date: formatDateTime()}
+    const logger_data = { Date: formatIndianDateTime()}
     try {
         await portfolio_collection.insertOne(logger_data)
         res.send({status: 'success'})
@@ -66,4 +66,5 @@ express_app.listen(PORT, async () => {
     await connect_database()
     // console.log('started listening')
 })
+
 
