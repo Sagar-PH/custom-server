@@ -3,7 +3,12 @@ const express = require('express')
 const cors = require('cors')
 const express_app = express()
 
-express_app.use(cors());
+express_app.use(cors({
+    origin: "*",
+    methods: ["GET", "POST"],
+    allowedHeaders: ["Content-Type"]
+}));
+
 express_app.use(express.json());
 express_app.use(express.urlencoded({ extended: true }));
 
@@ -66,5 +71,6 @@ express_app.listen(PORT, async () => {
     await connect_database()
     // console.log('started listening')
 })
+
 
 
