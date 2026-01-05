@@ -19,23 +19,23 @@ const client = new MongoClient(url, {
     }
 });
 
-function formatDateTime() {
+function formatIndianDateTime() {
     const now = new Date();
 
-    const months = [
-        "January", "February", "March", "April", "May", "June",
-        "July", "August", "September", "October", "November", "December"
-    ];
+    const formatter = new Intl.DateTimeFormat("en-US", {
+        timeZone: "Asia/Kolkata",
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+        hour: "2-digit",
+        minute: "2-digit",
+        hour12: false
+    });
 
-    const month = months[now.getMonth()];
-    const day = now.getDate();
-    const year = now.getFullYear();
+    const parts = formatter.formatToParts(now);
+    const get = (type) => parts.find(p => p.type === type)?.value;
 
-    const pad = (n) => String(n).padStart(2, '0');
-    const hours = pad(now.getHours());
-    const minutes = pad(now.getMinutes());
-
-    return `${month} ${day}, ${year} - ${hours}:${minutes}`;
+    return `${get("month")} ${get("day")}, ${get("year")} - ${get("hour")}:${get("minute")}`;
 }
 
 express_app.post('/logger', async (req, res) => {
@@ -66,3 +66,4 @@ express_app.listen(PORT, async () => {
     await connect_database()
     // console.log('started listening')
 })
+
